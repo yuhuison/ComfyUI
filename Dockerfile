@@ -1,10 +1,11 @@
 # 基于官方 CUDA 镜像（用于 GPU 加速）
 FROM nvidia/cuda:12.9.1-cudnn-devel-ubi9
 
-# 安装系统依赖
-RUN apt update && apt install -y \
-    python3 python3-pip git ffmpeg libgl1 \
-    && rm -rf /var/lib/apt/lists/*
+# 安装系统依赖（使用 dnf 替代 apt）
+RUN dnf update -y && \
+    dnf install -y \
+    python3 python3-pip git ffmpeg libglvnd && \
+    rm -rf /var/cache/dnf
 
 # 创建工作目录
 WORKDIR /comfyui
@@ -16,6 +17,7 @@ COPY . .
 RUN pip3 install --upgrade pip && \
     pip3 install --no-cache-dir -r requirements.txt
 
+# 复制并执行下载模型脚本
 COPY download_models.sh .
 RUN bash download_models.sh
 
