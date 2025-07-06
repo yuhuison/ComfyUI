@@ -419,6 +419,10 @@ class WanModel(torch.nn.Module):
         super().__init__()
         self.dtype = dtype
         operation_settings = {"operations": operations, "device": device, "dtype": dtype}
+        
+        print(f"dims: in_dim={in_dim}, dim={dim}, ffn_dim={ffn_dim}, freq_dim={freq_dim}, text_dim={text_dim}, out_dim={out_dim}")
+        
+        print(f"Operation settings: {operation_settings}")
 
         assert model_type in ['t2v', 'i2v']
         self.model_type = model_type
